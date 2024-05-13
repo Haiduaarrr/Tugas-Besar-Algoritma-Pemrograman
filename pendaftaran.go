@@ -5,8 +5,8 @@ import "fmt"
 const nmax int = 100
 
 type calonMHS struct {
-	nama, domisili, jurusan, asalSekolah string
-	nilaiTes                            int
+	nama, domisili, jurusan string
+	nilaiTes	int
 }
 
 type tabCalon [nmax]calonMHS
@@ -24,13 +24,24 @@ func menu() {
 	fmt.Println()
 }
 
-func isicCalon(mhs *tabCalon, *n int) {
+func tambahMhs(mhs *tabCalon, *n int) {
 	/*
 		IS: Array mhs terdefinisi sembarang
   		FS: Array mhs terisi data nama, jurusan, domisili, asal sekolah, dan nilai tes
  	*/
 	var M calonMHS
 
+	fmt.Print("Masukkan nama mahasiswa: ")
+	fmt.Scan(&M.nama)
 	for M.nama != "selesai" {
+		fmt.Print("Masukkan domisili mahasiswa: ")
+		fmt.Scan(&M.domisili)
+		fmt.Print("Masukkan jurusan: ")
+		fmt.Scan(&M.jurusan)
+		fmt.Print("Masukkan nilai tes: ")
+		fmt.Scan(&M.nilaiTes)
+
+		mhs[*n] = M
+		*n++
 		
 }
