@@ -1,5 +1,6 @@
-package main
 
+package main
+wgydwdD
 import "fmt"
 
 const nmax int = 100
