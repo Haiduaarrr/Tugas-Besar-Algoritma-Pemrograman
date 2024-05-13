@@ -21,7 +21,7 @@ func menu() {
 	fmt.Println()
 	fmt.Println()
 	fmt.Println()
-	fmt.Println()
+	fmt.Println(Kontol)
 }
 
 func isicCalon() {
