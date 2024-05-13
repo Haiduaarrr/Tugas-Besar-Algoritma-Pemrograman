@@ -1,7 +1,7 @@
 # Tugas-Besar-Algoritma-Pemrograman
 
 SPESIFIKASI TUGAS
-5.	Aplikasi Pendaftaran Mahasiswa
+Aplikasi Pendaftaran Mahasiswa
 Deskripsi: Aplikasi pendaftaran mahasiswa di perguruan tinggi ini mengelola data calon mahasiswa dan data jurusan perguruan tinggi. Pengguna aplikasi ini adalah petugas admin aplikasi dan juga calon mahasiswa.
 Spesifikasi:
 a.	Pengguna bisa melakukan penambahan, pengubahan (edit), dan penghapusan data mahasiswa dan data jurusan di suatu perguruan tinggi.
