@@ -28,15 +28,15 @@ func menu() {
 	fmt.Println("= 2. Edit Mahasiswa               =")
 	fmt.Println("= 3. Delete Mahasiswa             =")
 	fmt.Println("= 4. Tampil Data Mahasiswa        =")
-	fmt.Println("= 5.                    =")
-	fmt.Println("= 6.                    =")
+	fmt.Println("= 5. Tambah Jurusan               =")
+	fmt.Println("= 6. Edit Jurusan                 =")
 	fmt.Println("Pilih opsi: ")
 }
 
 func tambahMhs(mhs *tabCalon, nMhs *int, jur *tabJurusan, nJur int) {
 	/*
-		IS: Array mhs terdefinisi sembarang
-		FS: Array mhs terisi data nama, jurusan, domisili, asal sekolah, dan nilai tes
+		I.S.: Array mhs terdefinisi sembarang
+		F.S.: Array mhs terisi data nama, jurusan, domisili, asal sekolah, dan nilai tes
 	*/
 	var M calonMHS
 	var j jurusan
@@ -59,7 +59,7 @@ func tambahMhs(mhs *tabCalon, nMhs *int, jur *tabJurusan, nJur int) {
 			}
 		}
 		if !foundJurusan { // kalo jurusan tidak ditemukan
-			fmt.Print("Jurusan tidak ditemukan!")
+			fmt.Println("Jurusan tidak ditemukan!")
 			M.jurusan = "-"
 		}
 		fmt.Print("Masukkan nilai tes: ")
@@ -74,12 +74,12 @@ func tambahMhs(mhs *tabCalon, nMhs *int, jur *tabJurusan, nJur int) {
 	}
 }
 
-func cariMahasiswa(mhs tabCalon, n int, nm string) int {
-	// Mengembalikan index dari mahasiswa yang dicari
+func cariMahasiswa(mhs tabCalon, nMhs int, nm string) int {
+	// Mengembalikan index dari nama mahasiswa yang dicari
 	var idx int
 	idx = -1
 
-	for i := 0; i < n; i++ {
+	for i := 0; i < nMhs; i++ {
 		if mhs[i].nama == nm {
 			idx = i
 		}
@@ -87,13 +87,13 @@ func cariMahasiswa(mhs tabCalon, n int, nm string) int {
 	return idx
 }
 
-func editMhs(mhs *tabCalon, n *int, nm string) {
+func editMhs(mhs *tabCalon, nMhs *int, nm string) {
 	/*
 		I.S. Array tabCalon mahasiswa terdefinisi
 		F.S. Data nama mahasiswa yang dicari akan terganti
 	*/
 	var found int
-	found = cariMahasiswa(*mhs, *n, nm)
+	found = cariMahasiswa(*mhs, *nMhs, nm)
 	if found == -1 {
 		fmt.Println("Data tidak ditemukan")
 	} else {
@@ -108,18 +108,21 @@ func editMhs(mhs *tabCalon, n *int, nm string) {
 	}
 }
 
-func deleteMhs(mhs *tabCalon, n *int, nm string) {
+func deleteMhs(mhs *tabCalon, nMhs *int, nm string) {
 	/*
-
-	 */
+		I.S. Array calon mahasiswa mhs dan nMhs terdefinisi
+		Proses: Memanggil fungsi cariMahasiswa dan melakukan penimpaan pada idx yang didapat oleh
+				fungsi cariMahasiswa
+		F.S. Data nama mahasiswa yang dicari telah dihapus
+	*/
 	var found int
 
-	found = cariMahasiswa(*mhs, *n, nm)
+	found = cariMahasiswa(*mhs, *nMhs, nm)
 	if found == -1 {
 		fmt.Println("Data belum berhasil di[hapus")
 	} else {
-		*n = *n - 1
-		for i := found; i < *n; i++ {
+		*nMhs = *nMhs - 1
+		for i := found; i < *nMhs; i++ {
 			mhs[i] = mhs[i+1]
 		}
 		fmt.Println("Data berhasil dihapus")
@@ -127,19 +130,35 @@ func deleteMhs(mhs *tabCalon, n *int, nm string) {
 
 }
 
-func tampilMhs(mhs tabCalon, n int) {
+func tampilMhs(mhs tabCalon, nMhs int) {
+	/*
+		I.S. Array calon mahasiswa mhs dan nMhs terdefinisi
+		F.S. Tercetak dilayar data calon mahasiswa
+	*/
 	var i int
 	fmt.Println("Data Mahasiswa:")
-	for i = 0; i < n; i++ {
-		fmt.Printf("%s %s %s %d\n", mhs[i].nama, mhs[i].domisili, mhs[i].jurusan, mhs[i].nilaiTes)
+	if mhs[i].nama == "" {
+		fmt.Println("\nTidak ada data Mahasiswa")
+	} else {
+		for i = 0; i < nMhs; i++ {
+			fmt.Printf("Nama Mahasiswa\t: %s\n", mhs[i].nama)
+			fmt.Printf("Domisili Mahasiswa: %s\n", mhs[i].domisili)
+			fmt.Printf("Jurusan Mahasiswa: %s\n", mhs[i].jurusan)
+			fmt.Printf("Nilai Tes Mahasiswa: %d\n", mhs[i].nilaiTes)
+		}
 	}
+
 	fmt.Println()
 }
 
 func tambahJurusan(jur *tabJurusan, nJur *int) {
+	/*
+		I.S
+		F.S
+	*/
 	var j jurusan
 
-	fmt.Print("Masukkan Data Jurusan atau ketik selesai untuk mengakhiri")
+	fmt.Println("Masukkan Data Jurusan atau ketik selesai untuk mengakhiri")
 	fmt.Print("Masukkan nama: ")
 	fmt.Scan(&j.nama)
 	for j.nama != "selesai" {
@@ -164,6 +183,10 @@ func cariJurusan(jur *tabJurusan, nJur int, jurusan string) int {
 }
 
 func editJurusan(jur *tabJurusan, nJur int, jurusan string) {
+	/*
+		I.S
+		F.S
+	*/
 	var found int
 
 	found = cariJurusan(jur, nJur, jurusan)
@@ -178,32 +201,131 @@ func editJurusan(jur *tabJurusan, nJur int, jurusan string) {
 
 }
 
-func main() {
+func deleteJurusan(jur *tabJurusan, nJur int, jurusan string) {
+	/*
+		I.S
+		F.S
+	*/
+	var found int
+
+	found = cariJurusan(jur, nJur, jurusan)
+	if found == -1 {
+		fmt.Println("Jurusan belum berhasil dihapus")
+	} else {
+		for i := found; i < nJur; i++ {
+			jur[i] = jur[i+1]
+		}
+		fmt.Println("Jurusan berhasil dihapus")
+	}
+}
+
+func tampilJurusan(jur tabJurusan, nJur int) {
+	/*
+		I.S
+		F.S
+	*/
+	fmt.Println("Jurusan Yang Tersedia:")
+	for i := 0; i < nJur; i++ {
+		fmt.Println(jur[i].nama)
+	}
+	fmt.Println()
+}
+
+func sortingNilai(mhs *tabCalon, nMhs int) {
+	/*
+		I.S Array mhs terdefinisi
+		Proses: Mengurutkan nilai mahasiswa dari yang terkecil hingga terbesar (ascending)
+		F.S Nilai mahasiswa yang terurut dari yang terkecil hingga terbesar berdasarkan nilai tes
+	*/
+	var i, j, idx_min int
+	var temp calonMHS
+	i = 1
+	for i <= nMhs-1 {
+		idx_min = i - 1
+		j = i
+		for j < nMhs {
+			if mhs[idx_min].nilaiTes > mhs[j].nilaiTes {
+				idx_min = j
+			}
+			j++
+		}
+		temp = mhs[idx_min]
+		mhs[idx_min] = mhs[i-1]
+		mhs[i-1] = temp
+		i++
+	}
+}
+
+func sortingNama(mhs *tabCalon, nMhs int) {
+	/*
+		I.S Array mhs terdefinisi
+		Proses: Mengurutkan nama mahasiswa dari yang terkecil hingga terbesar (ascending)
+		F.S Nilai mahasiswa yang terurut dari yang terkecil hingga terbesar berdasarkan nama
+	*/
+	var i, j, idx_min int
+	var temp calonMHS
+	i = 1
+	for i <= nMhs-1 {
+		idx_min = i - 1
+		j = i
+		for j < nMhs {
+			if mhs[idx_min].nama > mhs[j].nama {
+				idx_min = j
+			}
+			j++
+		}
+		temp = mhs[idx_min]
+		mhs[idx_min] = mhs[i-1]
+		mhs[i-1] = temp
+		i++
+	}
+}
+
+func findMinNilai(mhs tabCalon, nMhs int) int {
+	// Mengembalikan nilai minimum dari mahasiswa
+	var i, min int
+	min = 99999
+	for i = 0; i < nMhs; i++ {
+		if mhs[i].nilaiTes < min {
+			min = mhs[i].nilaiTes
+		}
+	}
+	return min
+}
+
+func tampilan() {
 	//var M calonMHS
 	var nMhs, nJur, opsi int
-	var mhs tabCalon
-	var jur tabJurusan
-	var nama string
+	var mhs tabCalon   // Array untuk mahasiswa
+	var jur tabJurusan // Array untuk jurusan
+	var namaMahasiswa, namaJurusan string
 
 	menu()
 	fmt.Scan(&opsi)
-	for opsi != 7 {
+	for opsi != 9 {
 		if opsi == 1 {
 			tambahMhs(&mhs, &nMhs, &jur, nJur)
 
 		} else if opsi == 2 {
 			fmt.Print("Masukkan nama yang datanya ingin diganti: ")
-			fmt.Scan(&nama)
-			editMhs(&mhs, &nMhs, nama)
+			fmt.Scan(&namaMahasiswa)
+			editMhs(&mhs, &nMhs, namaMahasiswa)
 		} else if opsi == 3 {
 			fmt.Print("Masukkan nama yang datanya ingin dihapus: ")
-			fmt.Scan(&nama)
-			deleteMhs(&mhs, &nMhs, nama)
+			fmt.Scan(&namaMahasiswa)
+			deleteMhs(&mhs, &nMhs, namaMahasiswa)
 		} else if opsi == 4 {
 			tampilMhs(mhs, nMhs)
+		} else if opsi == 5 {
+			tambahJurusan(&jur, &nJur)
+		} else if opsi == 6 {
+			editJurusan(&jur, nJur, namaJurusan)
 		}
 		menu()
 		fmt.Scan(&opsi)
 	}
+}
 
+func main() {
+	tampilan()
 }
