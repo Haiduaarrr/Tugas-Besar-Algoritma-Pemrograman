@@ -12,25 +12,26 @@ type calonMHS struct {
 
 type jurusan struct {
 	nama       string
-	mahasiswas [15]string // menampung nama mhs
-	nMahasiswa int        //
+	mahasiswas [15]calonMHS // menampung nama mhs
+	nMahasiswa int          //
 }
 
 type tabJurusan [nmax]jurusan
 type tabCalon [nmax]calonMHS
 
-func menu() {
+func menuPendaftaran() {
 	// Menampilkan pilihan menu
 	fmt.Println("===================================")
-	fmt.Println("=      PENDAFTARAN MAHASISWA      =")
+	fmt.Println("=>     PENDAFTARAN MAHASISWA     <=")
 	fmt.Println("===================================")
-	fmt.Println("= 1. Tambah Mahasiswa             =")
-	fmt.Println("= 2. Edit Mahasiswa               =")
-	fmt.Println("= 3. Delete Mahasiswa             =")
-	fmt.Println("= 4. Tampil Data Mahasiswa        =")
-	fmt.Println("= 5. Tambah Jurusan               =")
-	fmt.Println("= 6. Edit Jurusan                 =")
-	fmt.Println("Pilih opsi: ")
+	fmt.Println("=> 1. Tambah Mahasiswa            =")
+	fmt.Println("=> 2. Edit Mahasiswa              =")
+	fmt.Println("=> 3. Delete Mahasiswa            =")
+	fmt.Println("=> 4. Tampil Data Mahasiswa       =")
+	fmt.Println("=> 5. Tambah Jurusan              =")
+	fmt.Println("=> 6. Edit Jurusan                =")
+	fmt.Println("===================================")
+	fmt.Print("Pilih opsi: ")
 }
 
 func tambahMhs(mhs *tabCalon, nMhs *int, jur *tabJurusan, nJur int) {
@@ -52,7 +53,7 @@ func tambahMhs(mhs *tabCalon, nMhs *int, jur *tabJurusan, nJur int) {
 		fmt.Scan(&M.jurusan)
 		for i := 0; i < nJur; i++ {
 			if M.jurusan == jur[i].nama {
-				jur[i].mahasiswas[nJur] = M.nama
+				jur[i].mahasiswas[nJur] = M
 				foundJurusan = true
 				j.nMahasiswa++
 
@@ -295,34 +296,34 @@ func findMinNilai(mhs tabCalon, nMhs int) int {
 
 func tampilan() {
 	//var M calonMHS
-	var nMhs, nJur, opsi int
+	var nMhs, nJur, opsi1 int
 	var mhs tabCalon   // Array untuk mahasiswa
 	var jur tabJurusan // Array untuk jurusan
 	var namaMahasiswa, namaJurusan string
 
-	menu()
-	fmt.Scan(&opsi)
-	for opsi != 9 {
-		if opsi == 1 {
+	menuPendaftaran()
+	fmt.Scan(&opsi1)
+	for opsi1 != 9 {
+		if opsi1 == 1 {
 			tambahMhs(&mhs, &nMhs, &jur, nJur)
 
-		} else if opsi == 2 {
+		} else if opsi1 == 2 {
 			fmt.Print("Masukkan nama yang datanya ingin diganti: ")
 			fmt.Scan(&namaMahasiswa)
 			editMhs(&mhs, &nMhs, namaMahasiswa)
-		} else if opsi == 3 {
+		} else if opsi1 == 3 {
 			fmt.Print("Masukkan nama yang datanya ingin dihapus: ")
 			fmt.Scan(&namaMahasiswa)
 			deleteMhs(&mhs, &nMhs, namaMahasiswa)
-		} else if opsi == 4 {
+		} else if opsi1 == 4 {
 			tampilMhs(mhs, nMhs)
-		} else if opsi == 5 {
+		} else if opsi1 == 5 {
 			tambahJurusan(&jur, &nJur)
-		} else if opsi == 6 {
+		} else if opsi1 == 6 {
 			editJurusan(&jur, nJur, namaJurusan)
 		}
-		menu()
-		fmt.Scan(&opsi)
+		menuPendaftaran()
+		fmt.Scan(&opsi1)
 	}
 }
 
