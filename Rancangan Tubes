@@ -10,3 +10,24 @@
 •	hapus nilai
 •	nilai -> tampil data diterima/ditolak
 •	tampil data terurut berdasarkan nilai tes -> jurusan -> nama
+
+NOTE HARI SENIN, 27 MEI 2024
+tambahan:
+
+-tambah, edit, delete jurusan
+-untuk nilai tes menggunakan algoritma sorting
+
+-buat fungsi cari nilai min dari mahasiswa, lalu buat ukurang
+siapa yang akan diterima atau ditolak, lalu status diubah 
+(function hasil(), keluaran status diterima atau ditolak,
+proses: cari nilai mahasiswa yang paling kecil,  )
+
+
+# tambahan bagian tambah dan edit mahasiswa
+searching yang jurusannya sama (return array)
+masukkan ke array of calon mahasiswa (tabMahasiswaJurusan) //array baru
+sorting array berdasarkan nilai dari besar ke kecil
+potong array sesaui kuota, lalu tambah status (tabJurusan.mahasiswas = tabMahasiswaJurusan[15])
+
+disaat hapus jurusan, maka mahasiswa tidak dihapus, tapi searching semua mahasiswa yang jurusanny dihapus, update semua jurusan dengan "-"
+
