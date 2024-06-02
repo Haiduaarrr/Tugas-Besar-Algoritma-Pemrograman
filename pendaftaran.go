@@ -141,14 +141,18 @@ func tampilMhs(mhs tabCalon, nMhs int) {
 	if mhs[i].nama == "" {
 		fmt.Println("\nTidak ada data Mahasiswa")
 	} else {
-		for i = 0; i < nMhs; i++ {
-			fmt.Printf("Nama Mahasiswa\t: %s\n", mhs[i].nama)
-			fmt.Printf("Domisili Mahasiswa: %s\n", mhs[i].domisili)
-			fmt.Printf("Jurusan Mahasiswa: %s\n", mhs[i].jurusan)
-			fmt.Printf("Nilai Tes Mahasiswa: %d\n", mhs[i].nilaiTes)
+		// for i = 0; i < nMhs; i++ {
+		// 	fmt.Printf("Nama Mahasiswa\t: %s\n", mhs[i].nama)
+		// 	fmt.Printf("Domisili Mahasiswa: %s\n", mhs[i].domisili)
+		// 	fmt.Printf("Jurusan Mahasiswa: %s\n", mhs[i].jurusan)
+		// 	fmt.Printf("Nilai Tes Mahasiswa: %d\n", mhs[i].nilaiTes)
+		// }
+
+		fmt.Printf("%10s %10s %10s %6s\n", "Nama", "Domisili", "Jurusan", "Nilai")
+		for i := 0; i < nMhs; i++ {
+			fmt.Printf("%10s %10s %10s %6d\n", mhs[i].nama, fmt.Sprintf("%s", mhs[i].domisili), fmt.Sprintf("%s", mhs[i].jurusan), mhs[i].nilaiTes)
 		}
 	}
-
 	fmt.Println()
 }
 
@@ -227,7 +231,7 @@ func tampilJurusan(jur tabJurusan, nJur int) {
 	*/
 	fmt.Println("Jurusan Yang Tersedia:")
 	for i := 0; i < nJur; i++ {
-		fmt.Println(jur[i].nama)
+		fmt.Println(i, jur[i].nama)
 	}
 	fmt.Println()
 }
@@ -235,7 +239,8 @@ func tampilJurusan(jur tabJurusan, nJur int) {
 func sortingNilai(mhs *tabCalon, nMhs int) {
 	/*
 		I.S Array mhs terdefinisi
-		Proses: Mengurutkan nilai mahasiswa dari yang terkecil hingga terbesar (ascending)
+		Proses: Mengurutkan nilai mahasiswa dari yang terkecil hingga terbesar (descending)
+				menggunakan algoritma selection sort
 		F.S Nilai mahasiswa yang terurut dari yang terkecil hingga terbesar berdasarkan nilai tes
 	*/
 	var i, j, idx_min int
@@ -245,7 +250,7 @@ func sortingNilai(mhs *tabCalon, nMhs int) {
 		idx_min = i - 1
 		j = i
 		for j < nMhs {
-			if mhs[idx_min].nilaiTes > mhs[j].nilaiTes {
+			if mhs[idx_min].nilaiTes < mhs[j].nilaiTes {
 				idx_min = j
 			}
 			j++
@@ -261,23 +266,20 @@ func sortingNama(mhs *tabCalon, nMhs int) {
 	/*
 		I.S Array mhs terdefinisi
 		Proses: Mengurutkan nama mahasiswa dari yang terkecil hingga terbesar (ascending)
+				menggunakan algoritma insertion sort
 		F.S Nilai mahasiswa yang terurut dari yang terkecil hingga terbesar berdasarkan nama
 	*/
-	var i, j, idx_min int
+	var i, j int
 	var temp calonMHS
 	i = 1
 	for i <= nMhs-1 {
-		idx_min = i - 1
 		j = i
-		for j < nMhs {
-			if mhs[idx_min].nama > mhs[j].nama {
-				idx_min = j
-			}
-			j++
+		temp = mhs[j]
+		for j > 0 && temp.nama < mhs[j-1].nama {
+			mhs[j] = mhs[j-1]
+			j--
 		}
-		temp = mhs[idx_min]
-		mhs[idx_min] = mhs[i-1]
-		mhs[i-1] = temp
+		mhs[j] = temp
 		i++
 	}
 }
@@ -321,6 +323,14 @@ func tampilan() {
 			tambahJurusan(&jur, &nJur)
 		} else if opsi1 == 6 {
 			editJurusan(&jur, nJur, namaJurusan)
+		} else if opsi1 == 7 {
+			
+		} else if {
+
+		} else if {
+
+		} else if {
+
 		}
 		menuPendaftaran()
 		fmt.Scan(&opsi1)
