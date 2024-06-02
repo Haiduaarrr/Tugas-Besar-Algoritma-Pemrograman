@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 const nmax int = 100
 
@@ -21,15 +23,20 @@ type tabCalon [nmax]calonMHS
 
 func menuPendaftaran() {
 	// Menampilkan pilihan menu
-	fmt.Println("===================================")
-	fmt.Println("=>     PENDAFTARAN MAHASISWA     <=")
-	fmt.Println("===================================")
-	fmt.Println("=> 1. Tambah Mahasiswa            =")
-	fmt.Println("=> 2. Edit Mahasiswa              =")
-	fmt.Println("=> 3. Delete Mahasiswa            =")
-	fmt.Println("=> 4. Tampil Data Mahasiswa       =")
-	fmt.Println("=> 5. Tambah Jurusan              =")
-	fmt.Println("=> 6. Edit Jurusan                =")
+	fmt.Println("====================================")
+	fmt.Println("=>     PENDAFTARAN MAHASISWA      <=")
+	fmt.Println("====================================")
+	fmt.Println("=> 1.  Tambah Mahasiswa            =")
+	fmt.Println("=> 2.  Edit Mahasiswa              =")
+	fmt.Println("=> 3.  Delete Mahasiswa            =")
+	fmt.Println("=> 4.  Tampil Data Mahasiswa       =")
+	fmt.Println("=> 5.  Tambah Jurusan              =")
+	fmt.Println("=> 6.  Edit Jurusan                =")
+	fmt.Println("=> 7.  Tampil Data Jurusan         =")
+	fmt.Println("=> 8.  Nilai Terbesar              =")
+	fmt.Println("=> 9.  Nilai Terkecil              =")
+	fmt.Println("=> 10. Tampilkan data terurut      =")
+	fmt.Println("=> 11. Tampilkan data kelulusan    =")
 	fmt.Println("===================================")
 	fmt.Print("Pilih opsi: ")
 }
@@ -77,15 +84,27 @@ func tambahMhs(mhs *tabCalon, nMhs *int, jur *tabJurusan, nJur int) {
 
 func cariMahasiswa(mhs tabCalon, nMhs int, nm string) int {
 	// Mengembalikan index dari nama mahasiswa yang dicari
-	var idx int
-	idx = -1
 
-	for i := 0; i < nMhs; i++ {
-		if mhs[i].nama == nm {
-			idx = i
+	var mid, left, right int
+	var found int
+	left = 0
+	right = nMhs - 1
+	found = -1
+
+	sortingNamaMHS(&mhs, nMhs)
+
+	for left <= right && found == -1 {
+		mid = (left + right) / 2
+		if mhs[mid].nama < nm {
+			left = mid + 1
+		} else if mhs[mid].nama > nm {
+			right = mid
+		} else if mhs[mid].nama == nm {
+			found = mid
 		}
 	}
-	return idx
+	return found
+
 }
 
 func editMhs(mhs *tabCalon, nMhs *int, nm string) {
@@ -148,9 +167,30 @@ func tampilMhs(mhs tabCalon, nMhs int) {
 		// 	fmt.Printf("Nilai Tes Mahasiswa: %d\n", mhs[i].nilaiTes)
 		// }
 
-		fmt.Printf("%10s %10s %10s %6s\n", "Nama", "Domisili", "Jurusan", "Nilai")
+		fmt.Printf("%10s %10s %15s %6s\n", "Nama", "Domisili", "Jurusan", "Nilai")
 		for i := 0; i < nMhs; i++ {
-			fmt.Printf("%10s %10s %10s %6d\n", mhs[i].nama, fmt.Sprintf("%s", mhs[i].domisili), fmt.Sprintf("%s", mhs[i].jurusan), mhs[i].nilaiTes)
+			fmt.Printf("%10s %10s %15s %6d\n", mhs[i].nama, fmt.Sprintf("%s", mhs[i].domisili), fmt.Sprintf("%s", mhs[i].jurusan), mhs[i].nilaiTes)
+		}
+	}
+	fmt.Println()
+}
+
+func tampilKelulusan(mhs tabCalon, nMhs int) {
+	var i int
+	fmt.Println("Data Mahasiswa:")
+	if mhs[i].nama == "" {
+		fmt.Println("\nTidak ada data Mahasiswa")
+	} else {
+		// for i = 0; i < nMhs; i++ {
+		// 	fmt.Printf("Nama Mahasiswa\t: %s\n", mhs[i].nama)
+		// 	fmt.Printf("Domisili Mahasiswa: %s\n", mhs[i].domisili)
+		// 	fmt.Printf("Jurusan Mahasiswa: %s\n", mhs[i].jurusan)
+		// 	fmt.Printf("Nilai Tes Mahasiswa: %d\n", mhs[i].nilaiTes)
+		// }
+
+		fmt.Printf("%10s %10s %15s %6s %10s\n", "Nama", "Domisili", "Jurusan", "Nilai", "Kelulusan")
+		for i := 0; i < nMhs; i++ {
+			fmt.Printf("%10s %10s %15s %6d %10s\n", mhs[i].nama, fmt.Sprintf("%s", mhs[i].domisili), fmt.Sprintf("%s", mhs[i].jurusan), mhs[i].nilaiTes, mhs[i].status)
 		}
 	}
 	fmt.Println()
@@ -203,6 +243,7 @@ func editJurusan(jur *tabJurusan, nJur int, jurusan string) {
 		fmt.Println()
 		fmt.Print("Data berhasil di edit")
 	}
+	fmt.Println()
 
 }
 
@@ -231,7 +272,7 @@ func tampilJurusan(jur tabJurusan, nJur int) {
 	*/
 	fmt.Println("Jurusan Yang Tersedia:")
 	for i := 0; i < nJur; i++ {
-		fmt.Println(i, jur[i].nama)
+		fmt.Printf("%d. %s\n", i+1, jur[i].nama)
 	}
 	fmt.Println()
 }
@@ -239,7 +280,7 @@ func tampilJurusan(jur tabJurusan, nJur int) {
 func sortingNilai(mhs *tabCalon, nMhs int) {
 	/*
 		I.S Array mhs terdefinisi
-		Proses: Mengurutkan nilai mahasiswa dari yang terkecil hingga terbesar (descending)
+		Proses: Mengurutkan nilai mahasiswa dari yang terbesar hingga terkecil (descending)
 				menggunakan algoritma selection sort
 		F.S Nilai mahasiswa yang terurut dari yang terkecil hingga terbesar berdasarkan nilai tes
 	*/
@@ -262,13 +303,14 @@ func sortingNilai(mhs *tabCalon, nMhs int) {
 	}
 }
 
-func sortingNama(mhs *tabCalon, nMhs int) {
+func sortingNamaMHS(mhs *tabCalon, nMhs int) {
 	/*
 		I.S Array mhs terdefinisi
 		Proses: Mengurutkan nama mahasiswa dari yang terkecil hingga terbesar (ascending)
 				menggunakan algoritma insertion sort
 		F.S Nilai mahasiswa yang terurut dari yang terkecil hingga terbesar berdasarkan nama
 	*/
+
 	var i, j int
 	var temp calonMHS
 	i = 1
@@ -276,6 +318,24 @@ func sortingNama(mhs *tabCalon, nMhs int) {
 		j = i
 		temp = mhs[j]
 		for j > 0 && temp.nama < mhs[j-1].nama {
+			mhs[j] = mhs[j-1]
+			j--
+		}
+		mhs[j] = temp
+		i++
+	}
+
+}
+
+func sortingJurusan(mhs *tabCalon, nMhs int) {
+
+	var i, j int
+	var temp calonMHS
+	i = 1
+	for i <= nMhs-1 {
+		j = i
+		temp = mhs[j]
+		for j > 0 && temp.jurusan < mhs[j-1].jurusan {
 			mhs[j] = mhs[j-1]
 			j--
 		}
@@ -296,16 +356,45 @@ func findMinNilai(mhs tabCalon, nMhs int) int {
 	return min
 }
 
+func findMaxNilai(mhs tabCalon, nMhs int) int {
+	var i, max int
+	max = 0
+	for i = 0; i < nMhs; i++ {
+		if mhs[i].nilaiTes > max {
+			max = mhs[i].nilaiTes
+		}
+	}
+	return max
+}
+
+func kelulusan(mhs *tabCalon, nMhs int) {
+
+	/*
+		I.S.
+		F.S.
+	*/
+	var i int
+	i = 0
+	for i < nMhs {
+		if mhs[i].nilaiTes >= 70 {
+			mhs[i].status = "Lulus"
+		} else {
+			mhs[i].status = "Tidak Lulus"
+		}
+		i++
+	}
+}
+
 func tampilan() {
 	//var M calonMHS
 	var nMhs, nJur, opsi1 int
 	var mhs tabCalon   // Array untuk mahasiswa
 	var jur tabJurusan // Array untuk jurusan
-	var namaMahasiswa, namaJurusan string
+	var namaMahasiswa, namaJurusan, x string
 
 	menuPendaftaran()
 	fmt.Scan(&opsi1)
-	for opsi1 != 9 {
+	for opsi1 != 0 {
 		if opsi1 == 1 {
 			tambahMhs(&mhs, &nMhs, &jur, nJur)
 
@@ -322,15 +411,34 @@ func tampilan() {
 		} else if opsi1 == 5 {
 			tambahJurusan(&jur, &nJur)
 		} else if opsi1 == 6 {
+			fmt.Print("Masukkan nama jurusan yang ingin di edit: ")
+			fmt.Scan(&namaJurusan)
 			editJurusan(&jur, nJur, namaJurusan)
 		} else if opsi1 == 7 {
-			
-		} else if {
-
-		} else if {
-
-		} else if {
-
+			tampilJurusan(jur, nJur)
+		} else if opsi1 == 8 {
+			fmt.Print("Nilai terbesar:")
+			fmt.Print(findMaxNilai(mhs, nMhs))
+		} else if opsi1 == 9 {
+			fmt.Print("Nilai terkecil:")
+			fmt.Print(findMinNilai(mhs, nMhs))
+		} else if opsi1 == 10 {
+			fmt.Println("Tampilkan data terurut berdasarkan nama/nilai/jurusan:")
+			fmt.Scan(&x)
+			if x == "nilai" {
+				sortingNilai(&mhs, nMhs)
+				tampilMhs(mhs, nMhs)
+			} else if x == "nama" {
+				sortingNamaMHS(&mhs, nMhs)
+				tampilMhs(mhs, nMhs)
+			} else if x == "jurusan" {
+				sortingJurusan(&mhs, nMhs)
+				tampilMhs(mhs, nMhs)
+			}
+		} else if opsi1 == 11 {
+			fmt.Println("Tampilkan data kelulusan")
+			kelulusan(&mhs, nMhs)
+			tampilKelulusan(mhs, nMhs)
 		}
 		menuPendaftaran()
 		fmt.Scan(&opsi1)
