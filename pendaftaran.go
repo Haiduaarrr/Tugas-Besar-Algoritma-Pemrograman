@@ -418,10 +418,10 @@ func tampilan() {
 			tampilJurusan(jur, nJur)
 		} else if opsi1 == 8 {
 			fmt.Print("Nilai terbesar:")
-			fmt.Print(findMaxNilai(mhs, nMhs))
+			fmt.Println(findMaxNilai(mhs, nMhs))
 		} else if opsi1 == 9 {
 			fmt.Print("Nilai terkecil:")
-			fmt.Print(findMinNilai(mhs, nMhs))
+			fmt.Println(findMinNilai(mhs, nMhs))
 		} else if opsi1 == 10 {
 			fmt.Println("Tampilkan data terurut berdasarkan nama/nilai/jurusan:")
 			fmt.Scan(&x)
